@@ -44,14 +44,17 @@
 	const headerHeight = 64;
 	const width = window.innerWidth;
 	const height = window.innerHeight - headerHeight;
+	const minMag = 1;
+	const maxMag = 40;
 
-	// {rojection
-	// const projection = d3.geoNaturalEarth1()
+	// Projection
+	// const projection = d3.geoNaturalEarth1() // another projection option
 	const projection = d3.geoEqualEarth()
 		.scale(width / (2 * Math.PI))
 		.translate([width / 2, height / 2]); // Centered initially ([longitude, latitude])
 
-	const pathBuilder = d3.geoPath(projection);
+	const pathBuilder = d3.geoPath(projection)
+							.pointRadius(2);
 
 	// The Tooltip
 	const Tooltip = d3.select('body')
@@ -72,9 +75,10 @@
 
 	const zoom = d3.zoom()
 					.on('zoom', (event) => {
+						console.log({event});
 						map.attr('transform', event.transform);
 					})
-					.scaleExtent([1, 40]);
+					.scaleExtent([minMag, maxMag]);
 
 	// The Map
 	const map = mapContainer.append('svg')
@@ -140,7 +144,9 @@
 				.style('top', (event.y + 10) + 'px');
 		})
 		.on('click', (event, feature) => {
-			window.open(feature.properties.website,'_blank');
+			if (feature.properties.website) {
+				window.open(feature.properties.website,'_blank');
+			}
 		});
 
 		function createID(props) {

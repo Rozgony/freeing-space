@@ -4,58 +4,148 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>Freeing Spaces</title>
-    <style>
-	    path {
-	        stroke: black;
-	        stroke-width: 0.5px;
-	    }
+	<style>
+		body {
+			background-color: #201803;
+		}
+		svg {
+			background: skyblue;
+			border: 1px solid black;
+			width: 100%;
+			height: 100%;
+		}
+		path {
+			stroke: black;
+			stroke-width: 0.5px;
+		}
+		#map {
+			overflow: hidden;
+		}
+		.site-logo {
+			height: 3em;
+		}
 	</style>
-	<script src="geoJSONs/custom.geo.js"></script>
+	<script src="geoJSONs/globe.geo.js"></script>
+	<script src="geoJSONs/freeing.geo.js"></script>
 	<script src="https://d3js.org/d3.v6.min.js"></script>
-	<script src="http://d3js.org/topojson.v0.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/d3-tile@1"></script>
 </head>
 <body>
-	<h1>Freeing Spaces</h1>
+	<img class="site-logo" src="images/IMG_9930_logo.jpg"/>
+	<div id="map" />
 </body>
 	<script>
-		console.log({globe})
 
-		if (globe) {
-			const foundry = addFeature("Point",[-7.641724521729832,43.601181745652475],{freed: true});
-			globe.features.push(foundry);
+	const mapData = globe.features.concat(freeingSpaces);
+	const mapContainer = d3.select('#map');
+
+	const mapRatio = 0.4;
+
+	// The plus turns it into a number
+	const headerHeight = 64;
+	const width = window.innerWidth;
+	const height = window.innerHeight - headerHeight;
+
+	// {rojection
+	// const projection = d3.geoNaturalEarth1()
+	const projection = d3.geoEqualEarth()
+		.scale(width / (2 * Math.PI))
+		.translate([width / 2, height / 2]); // Centered initially ([longitude, latitude])
+
+	const pathBuilder = d3.geoPath(projection);
+
+	// The Tooltip
+	const Tooltip = d3.select('body')
+						.append('div')
+						.attr('class', 'map-tooltip')
+						.style('visibility', 'hidden')
+						.style('background-color', 'white')
+						.style('border', 'solid')
+						.style('border-width', '2px')
+						.style('border-radius', '5px')
+						.style('padding', '5px')
+						.style('position', 'absolute')
+						.on('mouseover', (event) => {
+							// A bug where if the user's cursor gets on top of the Tooltip, it flashes infinitely until the user's cursor moves
+							// Very distracting and this gets rid of it completely. Besides, the cursor should never be over the Tooltip anyway
+							Tooltip.style('visibility', 'hidden');
+						});
+
+	const zoom = d3.zoom()
+					.on('zoom', (event) => {
+						map.attr('transform', event.transform);
+					})
+					.scaleExtent([1, 40]);
+
+	// The Map
+	const map = mapContainer.append('svg')
+					.attr('padding', 'none')
+					.attr('height', width * 0.48688353)
+					.attr('width', width)
+					.attr('border', '1px solid black')
+					.attr('margin-left', '16px')
+					.attr('preserveAspectRatio', 'xMinYMin meet')
+					.call(zoom) // This is for when you zoom on the background, it will zoom
+					.append('g'); // This is going to be the country group
+
+
+ 	map.selectAll('path')
+		.data(mapData)
+		.enter() // This will be the countries appended
+		.append('path') // Used for clearing out styling later
+		.classed('country', true) // Used for selecting specific countries for styling
+		.attr('id', (feature) => {
+			return `country${createID(feature.properties)}`; // Simple stylings
+		})
+		.attr('opacity', '.7')
+		.attr('stroke', 'black')
+		.attr('stroke-width', '.5px')
+		.attr('d', (feature) => {
+			return pathBuilder(feature); // Using the projection, create the polygon for the country
+		})
+		.attr('fill', d => {
+			return d.properties.freed ? 'red' : 'white';
+		})
+		.style('cursor', d => {
+			return d.properties.website ? 'pointer' : 'default';
+		})
+		// Events are given the event object and the feature object (AKA datum AKA d as it is usually shown in documentation)
+		.on('mouseover', (event, feature) => {
+			// This adds the styling to show the user they are hovering over the country
+			d3.select(`#country${createID(feature.properties)}`)
+				.transition()
+				.duration(200)
+				.attr('opacity', '1')
+				.attr('stroke-width', '1px');
+				// Show the Tooltip
+				Tooltip.style('visibility', 'visible');
+		})
+		.on('mouseleave', (event, feature) => {
+			// This clears out the remaining styles on all other countries not currently being hovered
+			d3.selectAll('.country')
+				.transition()
+				.duration(200)
+				.attr('opacity', '0.7')
+				.attr('stroke-width', '.5px');
+				// Hide the tooltip
+				Tooltip.style('visibility', 'hidden');
+		})
+		.on('mousemove', (event, feature) => {
+			// This adds the tooltip where the user's cursor currently is
+			let text = feature.properties.admin;
+			if (feature.properties.description) {
+				text += `<br/><em>${feature.properties.description}</em>`;
+			}
+			Tooltip.html(text)
+				.style('left', (event.x + 10) + 'px')
+				.style('top', (event.y + 10) + 'px');
+		})
+		.on('click', (event, feature) => {
+			window.open(feature.properties.website,'_blank');
+		});
+
+		function createID(props) {
+			let name = props.adm0_a3 || props.admin;
+			return name.replace(/[&<>,`=#$*()^@!+~?%;\[\]\\\/."']/g,'').replace(/ /g,'');
 		}
-
-		const width = 900;
-		const height = 600;
-		const svg = d3.select('body').append('svg')
-					    .attr('width', width)
-					    .attr('height', height);
-		// const projection = d3.geoNaturalEarth1()
-		const projection = d3.geoEqualEarth()
-		    .translate([width / 2, height / 2]) // translate to center of screen
-		    .scale([200]); // scale things down so see entire US
-		 
-		const path = d3.geoPath().projection(projection);
-
-	    svg.selectAll('path')
-	        .data(globe.features)
-	        .enter()
-	        .append('path')
-	        .attr('d', path)
-	        .attr('fill', d => {
-	        	return d.properties.freed ? 'red' : d3.interpolateBrBG(d.properties.pop_est/1400000000);
-	        });
-
-	    function addFeature(type,coordinates,properties) {
-			return {
-				type: 'Feature',
-				geometry: {
-					type,
-					coordinates
-				},
-				properties
-			};
-	    }
 	</script>
 </html>

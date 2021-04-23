@@ -1,15 +1,16 @@
 const freeingSpacesJSON = freeingSpacesFromCSV.map(convertToGeoJSON);
 const basicOSM = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const watercolorOSM = 'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
+const watercolorAttr = 'Imagery © <a href="http://maps.stamen.com/#watercolor">Stamen Design</a> (CC BY 3.0)'
 const topoOSM = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+const topoAttr = 'Imagery © <a href="http://opentopomap.org">opentopomap.org</a> (CC-BY-SA)'
 
 const map = L.map('map').setView([0, 0], 2);
 
 L.tileLayer(topoOSM, {
 	maxZoom: 18,
 	continuousWorld: true,
-	attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-		'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+	attribution: `Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ${topoAttr}`,
 	tileSize: 512,
 	zoomOffset: -1,
 }).addTo(map);

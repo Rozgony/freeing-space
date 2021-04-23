@@ -1,4 +1,4 @@
-const map = L.Projection.SphericalMercator.map('map').setView([0, 0], 2);
+const map = L.map('map').setView([0, 0], 2);
 
 const freeingSpacesJSON = freeingSpacesFromCSV.map(convertToGeoJSON);
 

@@ -1,15 +1,25 @@
-body {
+html, body {
 	background-color: #201803;
+	height: 100%;
+	margin: 0;
 }
-svg {
+/*svg {
 	background: skyblue;
 	border: 1px solid black;
 	width: 100%;
 	height: 100%;
-}
-#map {
+}*/
+/*#map {
 	overflow: hidden;
-}
+}*/
 .site-logo {
 	height: 3em;
-}	
+}
+
+#map {
+	/*background-color: #201803;*/
+	/*width: 600px;*/
+	width: 100%;
+	height: 100%;
+	/*height: 400px;*/
+}

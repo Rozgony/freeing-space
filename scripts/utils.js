@@ -34,7 +34,8 @@ function convertToGeoJSON(space){
 				properties: {
 					admin: space.Name,
 					freed: true,
-					website: space.Website
+					url: space.Website,
+					description: space.Description,
 				},
 				geometry
 			};

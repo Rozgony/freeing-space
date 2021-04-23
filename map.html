@@ -6,9 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 	<title>Freeing Spaces</title>
 	<link href="styles/style.css" rel="stylesheet"></link>
-	<!-- <script src="geoJSONs/globe.geo.js"></script> -->
 	<!-- <script src="geoJSONs/freeing.geo.js"></script> -->
-
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
 		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
 		crossorigin=""/>
@@ -17,53 +15,10 @@
 		crossorigin=""></script>
 	<script src="geoJSONs/freeingspace_2021-04-22.js"></script>
 	<script src="scripts/utils.js"></script>
-	<!-- <script src="https://d3js.org/d3.v6.min.js"></script> -->
-	<!-- <script src="https://cdn.jsdelivr.net/npm/d3-tile@1"></script> -->
 </head>
 <body>
 	<img class="site-logo" src="images/IMG_9930_logo.jpg"/>
-	<!-- <div id="map" /> -->
 	<div id="map" class="leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" style="position: relative;" tabindex="0"></div>
-<!-- <script src="scripts/map.js"></script> -->
-<script>
-	const map = L.map('map').setView([0, 0], 2);
-
-	const freeingSpacesJSON = freeingSpacesFromCSV.map(convertToGeoJSON);
-
-	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-		maxZoom: 18,
-		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
-			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-		id: 'mapbox/light-v9',
-		tileSize: 512,
-		zoomOffset: -1
-	}).addTo(map);
-
-	function onEachFeature(feature, layer) {
-		let text = feature.properties.admin;
-		if (feature.properties.description) {
-			text += `<br/><em>${feature.properties.description}</em>`;
-		}
-		layer.bindPopup(text);
-	}
-
-	L.geoJSON(freeingSpacesJSON, {
-		style: function (feature) {
-			return feature.properties && feature.properties.style;
-		},
-		onEachFeature: onEachFeature,
-		pointToLayer: function (feature, latlng) {
-			return L.circleMarker(latlng, {
-				radius: 4,
-				fillColor: "#ff7800",
-				color: "#000",
-				weight: 1,
-				opacity: 1,
-				fillOpacity: 0.8
-			});
-		}
-	}).addTo(map);
-</script>
 </body>
-
+<script src="scripts/map.js"></script>
 </html>

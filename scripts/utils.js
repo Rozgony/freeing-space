@@ -27,15 +27,41 @@ function createGeometry(space) {
 	}
 }
 
+function polygonIconPosition(feature){
+	const toAdd = {
+		'Name*': feature['Name*'],
+		'Type*': feature['Type*'],
+		'Website': feature['Website'],
+		'Description': feature['Description']
+	};
+	const lats = [];
+	const longs = [];
+	let latsTotal = 0;
+	let longsTotal = 0;
+	for(const prop in feature) {
+		if (prop.includes('Latitude')) {
+			lats.push(feature[prop])
+			latsTotal += Number(feature[prop]);
+		} else if (prop.includes('Longitute')) {
+			longs.push(feature[prop])
+			longsTotal += Number(feature[prop]);
+		}
+	}
+	toAdd['Latitude 1*'] = latsTotal / lats.length;
+	toAdd['Longitute 1*'] = longsTotal / longs.length;
+	return toAdd;
+}
+
 function convertToGeoJSON(space){
 	const geometry = createGeometry(space);
 	return 	{
 				type: 'Feature',
 				properties: {
-					admin: space.Name,
+					admin: space['Name*'] || '',
 					freed: true,
-					url: space.Website,
-					description: space.Description,
+					url: space.Website || '',
+					description: space.Description || '',
+					type: space['Type*'] || ''
 				},
 				geometry
 			};

@@ -12,6 +12,8 @@ freeingSpacesFromCSV.forEach( feature =>{
 	}
 });
 
+// $('.backdrop').hide();
+
 const basic = {
 	osm: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 	attr: ''
@@ -42,6 +44,8 @@ const freeColor = 'red';
 const mapData = bw;
 
 const map = L.map('map').setView([0, 0], 2);
+
+map.zoomControl.setPosition('topright');
 
 L.tileLayer(mapData.osm, {
 	maxZoom: 18,
@@ -94,7 +98,6 @@ L.geoJSON(freeingSpacesJSON, {
 	onEachFeature: onEachFeature,
 	markersInheritOptions: true,
 	pointToLayer: function (feature, latlng) {
-		console.log({feature})
 		if (feature.properties.type === 'Housing') {
 			return L.marker(latlng, {icon: housingIcon});
 		} else if (feature.properties.type === 'Land / Food') {
@@ -112,3 +115,65 @@ L.geoJSON(freeingSpacesJSON, {
 		}
 	}
 }).addTo(map);
+
+const criteriaHTML = `<ul><b>Criteria:</b>
+						<li>Non-profit</li>
+						<li>Not exclude people on grounds of identity </li>
+						<li>Not be managed by the state</li>
+						<li>Democratically Run (and Owned as appropriate)</li>
+					</ul>`;
+
+const searchboxControl = createSearchboxControl();
+const control = new searchboxControl({
+    sidebarTitleText: 'Legend',
+    sidebarMenuItems: {
+        Items: [
+            { type: "button", name: '<b>Land:</b> Autonomus Communities, Agricultural Projects, Food Security, etc.', icon: './images/land.png' },
+            { type: "button", name: "<b>Housing:</b> Housing Co-ops, Residencies, etc.", icon: './images/housing.png' },
+            { type: "button", name: "<b>Projects:</b> Co-op bookstores, Project Spaces, etc.", icon: './images/projects.png' },
+            { type: "text", name: criteriaHTML },
+            { type: "link", name: "Suggest a Space", href: 'https://docs.google.com/spreadsheets/d/11F-WLs4tI3b6HezGhsXOo4FaYitRZ5UbmH8wDz2oUMs/edit#gid=0', icon: './images/add.png' },
+        ]
+    }
+});
+let searchLayer;
+control._searchfunctionCallBack = function (searchkeywords){
+	$('.backdrop').show();
+	const isClear = false;
+	removeSearch(isClear);
+	const url = `https://nominatim.openstreetmap.org/search.php?q=${searchkeywords}&polygon_geojson=1&format=json`;
+	$.ajax({
+  		method: "GET",
+  		url
+	})
+  	.done(function( msg ) {
+  		if (msg && msg.length && msg[0].geojson) {
+	    	searchLayer = L.geoJson(msg[0].geojson).addTo(map);
+			map.fitBounds(searchLayer.getBounds());
+		}
+		$('.backdrop').hide();
+  	});
+}
+
+map.addControl(control);
+$('#searchbox-clear').click(() => {
+	const isClear = true;
+	removeSearch(isClear);
+});
+function removeSearch(isClear) {
+	if (searchLayer) {
+		map.removeLayer(searchLayer);
+	}
+	if (isClear) {
+		$('#searchboxinput').val('');
+	}
+}
+$('#searchboxinput').on("keyup", function(event) {
+  	// Number 13 is the "Enter" key on the keyboard
+  	if (event.keyCode === 13) {
+    	// Cancel the default action, if needed
+    	event.preventDefault();
+    	// Trigger the button element with a click
+    	$("#searchbox-searchbutton").click();
+  	}
+}); 

@@ -4,10 +4,15 @@ html, body {
 	height: 100%;
 	margin: 0;
 	color: #000000;
+	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 .site-logo {
 	height: 3em;
+}
+.site-name {
+	font-weight: 600;
+	font-size: 1.5em;
 }
 
 #map {
@@ -44,4 +49,82 @@ h2 {
 	top: 1em;
 	left: calc(50% - 4em);
 	z-index: 10;
+}
+
+.backdrop {
+	position: fixed;
+	top:0;
+	right:0;
+	bottom:0;
+	left:0;
+	z-index: 100;
+	background: rgba(0,0,0,0.2);
+	display: none;
+}
+.spinner {
+	width: 20%;
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	animation: spin 2s ease-in-out infinite;
+    -webkit-animation: spin 2s ease-in-out infinite;
+}
+
+@keyframes spin {
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+@-webkit-keyframes spin {
+	to {
+		-webkit-transform: rotate(360deg);
+	}
+}
+#controlcontainer .panel-list .panel-list-item {
+	opacity: 1;
+}
+
+#controlcontainer .panel-list .panel-list-item button {
+	max-width: 15em;
+	text-align: left;
+	cursor: pointer;
+	pointer-events: none;
+}
+
+#controlcontainer .panel-list .panel-list-item img {
+	width: 3em;
+	height: 3em;
+}
+#controlcontainer .panel-list .panel-list-item img.plus {
+	width: 2.5em;
+	height: 2.5em;
+}
+
+#controlcontainer .panel-list .panel-list-item a.link {
+	vertical-align: 12px;
+}
+
+#controlcontainer .panel-list .panel-list-item a:hover {
+	color:  #000;
+}
+
+#controlcontainer .panel-list .panel-list-item ul:hover,
+#controlcontainer .panel-list .panel-list-item li:hover,
+.panel-content ul:hover,
+.panel-content li:hover {
+	font-size: 13px !important;
+    cursor: pointer;
+    line-height: 19.5px !important;
+    vertical-align: top;
+}
+#controlcontainer .panel-list .panel-list-item ul {
+	list-style: disc;
+}
+#controlcontainer .panel-list .panel-list-item ul li {
+	margin-left: 1em;
+}
+
+#controlcontainer #searchbox-clear {
+	position: absolute;
+	left: -1.5em;
 }

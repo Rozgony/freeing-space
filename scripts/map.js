@@ -1,10 +1,11 @@
 let freeingSpacesJSON = [];
+console.log()
 freeingSpacesFromCSV.forEach(space => {
-	if (space['Name*'] && space['Type*'] && space['Longitute 1*'] && space['Latitude 1*']) {
+	if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
 		freeingSpacesJSON.push(convertToGeoJSON(space));
 	}
 
-	if (space['Latitude 2'] && space['Longitute 2'] && space['Name*'] && space['Type*'] && space['Longitute 1*'] && space['Latitude 1*']) {
+	if (space['Latitude 2'] && space['Longitute 2'] && space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
 		const toAdd = polygonIconPosition(space);
 		freeingSpacesJSON.push(convertToGeoJSON(toAdd));
 	}

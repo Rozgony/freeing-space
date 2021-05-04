@@ -29,8 +29,8 @@ function createGeometry(space) {
 
 function polygonIconPosition(feature){
 	const toAdd = {
-		'Name*': feature['Name*'],
-		'Type*': feature['Type*'],
+		'Name': feature['Name'],
+		'Type': feature['Type'],
 		'Website': feature['Website'],
 		'Description': feature['Description']
 	};
@@ -57,11 +57,11 @@ function convertToGeoJSON(space){
 	return 	{
 				type: 'Feature',
 				properties: {
-					admin: space['Name*'] || '',
+					admin: space['Name'] || '',
 					freed: true,
 					url: space.Website || '',
 					description: space.Description || '',
-					type: space['Type*'] || ''
+					type: space['Type'] || ''
 				},
 				geometry
 			};

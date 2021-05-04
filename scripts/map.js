@@ -3,16 +3,12 @@ freeingSpacesFromCSV.forEach(space => {
 	if (space['Name*'] && space['Type*'] && space['Longitute 1*'] && space['Latitude 1*']) {
 		freeingSpacesJSON.push(convertToGeoJSON(space));
 	}
-});
 
-freeingSpacesFromCSV.forEach( feature =>{
-	if (feature['Latitude 2'] && feature['Longitute 2'] && feature['Name*'] && feature['Type*'] && feature['Longitute 1*'] && feature['Latitude 1*']) {
-		const toAdd = polygonIconPosition(feature);
+	if (space['Latitude 2'] && space['Longitute 2'] && space['Name*'] && space['Type*'] && space['Longitute 1*'] && space['Latitude 1*']) {
+		const toAdd = polygonIconPosition(space);
 		freeingSpacesJSON.push(convertToGeoJSON(toAdd));
 	}
 });
-
-// $('.backdrop').hide();
 
 const basic = {
 	osm: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -156,10 +152,16 @@ control._searchfunctionCallBack = function (searchkeywords){
 }
 
 map.addControl(control);
+
 $('#searchbox-clear').click(() => {
 	const isClear = true;
 	removeSearch(isClear);
 });
+
+$('.my-location').click(() => {
+	map.locate({setView: true, maxZoom: 16, enableHighAccuracy: true});
+});
+
 function removeSearch(isClear) {
 	if (searchLayer) {
 		map.removeLayer(searchLayer);
@@ -168,6 +170,7 @@ function removeSearch(isClear) {
 		$('#searchboxinput').val('');
 	}
 }
+
 $('#searchboxinput').on("keyup", function(event) {
   	// Number 13 is the "Enter" key on the keyboard
   	if (event.keyCode === 13) {

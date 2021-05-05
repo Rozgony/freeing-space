@@ -113,6 +113,12 @@ L.geoJSON(freeingSpacesJSON, {
 	}
 }).addTo(map);
 
+map.on('zoomend', function() {
+	const currentZoom = map.getZoom();
+	$('#map').toggleClass('small-icons',currentZoom < 7);
+	$('#map').toggleClass('medium-icons',currentZoom < 10 && currentZoom > 7);
+});
+
 const criteriaHTML = `<ul><b>Criteria:</b>
 						<li>Non-profit</li>
 						<li>Not exclude people on grounds of identity </li>

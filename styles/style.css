@@ -29,6 +29,16 @@ html, body {
 	right: 0px;
 }
 
+#map.small-icons img.leaflet-marker-icon {
+	width: 16px !important; /* override inline style */
+	height: 18.5px !important; /* override inline style */
+}
+
+#map.medium-icons img.leaflet-marker-icon {
+	width: 20px !important; /* override inline style */
+	height: 23px !important; /* override inline style */
+}
+
 .link-button {
 	padding: 0.5em;
 	/*border: 1px solid #000;*/

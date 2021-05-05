@@ -47,8 +47,8 @@ function polygonIconPosition(feature){
 			longsTotal += Number(feature[prop]);
 		}
 	}
-	toAdd['Latitude 1*'] = latsTotal / lats.length;
-	toAdd['Longitute 1*'] = longsTotal / longs.length;
+	toAdd['Latitude 1'] = latsTotal / lats.length;
+	toAdd['Longitute 1'] = longsTotal / longs.length;
 	return toAdd;
 }
 

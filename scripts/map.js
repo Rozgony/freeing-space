@@ -131,9 +131,9 @@ const control = new searchboxControl({
     sidebarTitleText: 'Legend',
     sidebarMenuItems: {
         Items: [
-            { type: "button", name: '<b>Land:</b> Autonomus Communities, Agricultural Projects, Food Security, etc.', icon: './images/land.png' },
-            { type: "button", name: "<b>Housing:</b> Housing Co-ops, Residencies, etc.", icon: './images/housing.png' },
-            { type: "button", name: "<b>Projects:</b> Co-op bookstores, Project Spaces, etc.", icon: './images/projects.png' },
+            { type: "button", name: '<b>Land:</b> Autonomus Communities, Agricultural Projects, Food Security, etc.', icon: './images/land.png', onclick: 'toggleLand();' },
+            { type: "button", name: "<b>Housing:</b> Housing Co-ops, Residencies, etc.", icon: './images/housing.png', onclick: 'toggleHousing();' },
+            { type: "button", name: "<b>Projects:</b> Co-op bookstores, Project Spaces, etc.", icon: './images/projects.png', onclick: 'toggleProjects();'},
             { type: "text", name: criteriaHTML },
             { type: "link", name: "Suggest a Space", href: 'https://docs.google.com/spreadsheets/d/11F-WLs4tI3b6HezGhsXOo4FaYitRZ5UbmH8wDz2oUMs/edit#gid=0', icon: './images/add.png' },
         ]

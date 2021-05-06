@@ -27,6 +27,15 @@ function createGeometry(space) {
 	}
 }
 
+function onEachFeature(feature, layer) {
+	const props = feature.properties;
+	let text = props.url ? `<a href=${props.url} target="_blank">${props.admin}</a>` : props.admin;
+	if (props.description) {
+		text += `<br/><em>${props.description}</em>`;
+	}
+	layer.bindPopup(text);
+}
+
 function polygonIconPosition(feature){
 	const toAdd = {
 		'Name': feature['Name'],
@@ -66,3 +75,52 @@ function convertToGeoJSON(space){
 				geometry
 			};
 }
+
+function toggleLand() {
+	$('#map').toggleClass('no-land');
+	$('#map .panel-list .panel-list-item:nth-of-type(1)').toggleClass('not-pressed');
+}
+
+function toggleHousing() {
+	$('#map').toggleClass('no-housing');
+	$('#map .panel-list .panel-list-item:nth-of-type(2)').toggleClass('not-pressed');
+}
+
+function toggleProjects() {
+	$('#map').toggleClass('no-projects');
+	$('#map .panel-list .panel-list-item:nth-of-type(3)').toggleClass('not-pressed');
+}
+
+function removeSearch(isClear) {
+	if (searchLayer) {
+		map.removeLayer(searchLayer);
+	}
+	if (isClear) {
+		$('#searchboxinput').val('');
+	}
+}
+
+function download(content,fileName, contentType){
+   var a = document.createElement('a');
+   var file = new Blob([content],{type:contentType});
+   a.href = URL.createObjectURL(file);
+   a.download = fileName;
+   a.click();
+}
+
+// Used to modify a json, csv, etc into the proper format to add to the Google Sheet. Modify as needed.
+function convertList(list){
+   const newList = list.map( item => {
+      return {
+         Name: item.Name,
+         Website: item.homepage,
+         ['Latitude 1']: Number(item.gps.split(',')[1]),
+         ['Longitude 1']: Number(item.gps.split(',')[0])
+      }
+   });
+
+   download(JSON.stringify(newList),'newList.txt', 'text/txt');
+}
+
+// Uncomment to use and add the name of the list to convert.
+// convertList(list);

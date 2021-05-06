@@ -1,0 +1,8 @@
+{
+	"dependencies": {
+		"jquery": "^3.6.0",
+		"jqueryui": "^1.11.1",
+		"leaflet": "^1.7.1",
+		"proj4leaflet": "^1.0.2"
+	}
+}

@@ -6,40 +6,27 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">	
 	<title>Freeing Spaces</title>
 	<!-- <script src="geoJSONs/globe.geo.js"></script> -->
-	<!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-		integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-		crossorigin=""/> -->
-	<!-- <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-		integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-		crossorigin=""></script> -->
 	<link href="lib/leaflet/leaflet.css" rel="stylesheet" />
 	<link href="lib/leaflet-custom-searchbox-master/dist/searchbox.min.css" rel="stylesheet" />
-	<!-- <link href="lib/leaflet-custom-searchbox-master/src/searchbox.css" rel="stylesheet" /> -->
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="node_modules/jqueryui/jquery-ui.min.css" rel="stylesheet">
 	<link href="styles/style.css" rel="stylesheet"></link>
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="node_modules/jqueryui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="node_modules/leaflet/dist/leaflet.js"></script>
 
-	<script src="https://code.jquery.com/jquery-1.12.4.min.js"
-			integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
-			crossorigin="anonymous"></script>
-	<script src="https://code.jquery.com/ui/1.8.24/jquery-ui.min.js"
-			integrity="sha256-UOoxwEUqhp5BSFFwqzyo2Qp4JLmYYPTHB8l+1yhZij8="
-			crossorigin="anonymous"></script>
-	<script type="text/javascript" src="lib/leaflet/leaflet-src.js"></script>
-	<!-- <script type="text/javascript" src="lib/leaflet-custom-searchbox-master/dist/leaflet.customsearchbox.min.js"></script> -->
 	<script type="text/javascript" src="lib/leaflet-custom-searchbox-master/src/leaflet.customsearchbox.js"></script>
-	<script src="geoJSONs/freeingspace_2021-05-04.js"></script>
-	<script src="scripts/utils.js"></script>
-	<!-- <script src="other/downloaded_spaces.js"></script> -->
+	<script type="text/javascript" src="scripts/utils.js"></script>
+	<script type="text/javascript" src="geoJSONs/freeingspace_2021-05-04.js"></script>
 </head>
 <body>
 	<!-- <h2 class="site-logo" src="images/IMG_9930_logo.jpg">FREEING SPACE<h2/> -->
 	<h2 class="site-name">FREEING SPACE</h2>
 	<div id="map" class="small-icons leaflet-container leaflet-touch leaflet-retina leaflet-fade-anim leaflet-grab leaflet-touch-drag leaflet-touch-zoom" style="position: relative;" tabindex="0"></div>
-	<!-- <button class="my-location material-icons"><span class="material-icons">my_location</span></button> -->
 	<button class="my-location material-icons">my_location</button>
 	<div class="backdrop">
 		<img class="spinner" src="./images/compass.png"/>
 	</div>
 </body>
-<script src="scripts/map.js"></script>
+<script type="text/javascript" src="scripts/map.js"></script>
 </html>

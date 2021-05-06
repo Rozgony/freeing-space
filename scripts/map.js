@@ -1,5 +1,4 @@
 let freeingSpacesJSON = [];
-console.log()
 freeingSpacesFromCSV.forEach(space => {
 	if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
 		freeingSpacesJSON.push(convertToGeoJSON(space));
@@ -11,6 +10,7 @@ freeingSpacesFromCSV.forEach(space => {
 	}
 });
 
+// Map Options
 const basic = {
 	osm: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 	attr: ''
@@ -36,9 +36,9 @@ const bw = {
 	attr: 'Imagery © <a href="https://ge-map-overlays.appspot.com/openstreetmap/mapnik">mapnik</a>'
 };
 
-const freeColor = 'red';
+const mapData = bw; // Select from the Map Options above
 
-const mapData = bw;
+const freeColor = 'red';
 
 const map = L.map('map').setView([0, 0], 2);
 
@@ -54,15 +54,6 @@ L.tileLayer(mapData.osm, {
 }).addTo(map);
 
 L.control.scale().addTo(map);
-
-function onEachFeature(feature, layer) {
-	const props = feature.properties;
-	let text = props.url ? `<a href=${props.url} target="_blank">${props.admin}</a>` : props.admin;
-	if (props.description) {
-		text += `<br/><em>${props.description}</em>`;
-	}
-	layer.bindPopup(text);
-}
 
 const housingIcon = L.icon({
 	iconUrl: './images/housing.png',
@@ -120,10 +111,10 @@ map.on('zoomend', function() {
 });
 
 const criteriaHTML = `<ul><b>Criteria:</b>
-						<li>Non-profit</li>
-						<li>Not exclude people on grounds of identity </li>
+						<li>Not for-profit</li>
+						<li>Not exclude people on grounds of identity</li>
 						<li>Not be managed by the state</li>
-						<li>Democratically Run (and Owned as appropriate)</li>
+						<li>Democratically run (and owned as appropriate)</li>
 					</ul>`;
 
 const searchboxControl = createSearchboxControl();
@@ -140,7 +131,7 @@ const control = new searchboxControl({
     }
 });
 let searchLayer;
-control._searchfunctionCallBack = function (searchkeywords){
+control._searchfunctionCallBack = searchkeywords => {
 	$('.backdrop').show();
 	const isClear = false;
 	removeSearch(isClear);
@@ -160,15 +151,6 @@ control._searchfunctionCallBack = function (searchkeywords){
 
 map.addControl(control);
 
-$('#searchbox-clear').click(() => {
-	const isClear = true;
-	removeSearch(isClear);
-});
-
-$('.my-location').click(() => {
-	map.locate({setView: true, maxZoom: 16, enableHighAccuracy: true});
-});
-
 function removeSearch(isClear) {
 	if (searchLayer) {
 		map.removeLayer(searchLayer);
@@ -178,7 +160,16 @@ function removeSearch(isClear) {
 	}
 }
 
-$('#searchboxinput').on("keyup", function(event) {
+$('#searchbox-clear').click(() => {
+	const isClear = true;
+	removeSearch(isClear);
+});
+
+$('.my-location').click(() => {
+	map.locate({setView: true, maxZoom: 16, enableHighAccuracy: true});
+});
+
+$('#searchboxinput').on("keyup", event => {
   	// Number 13 is the "Enter" key on the keyboard
   	if (event.keyCode === 13) {
     	// Cancel the default action, if needed

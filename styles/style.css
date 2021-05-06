@@ -5,6 +5,20 @@ html, body {
 	margin: 0;
 	color: #000000;
 	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	cursor: default;
+}
+
+body .panel-content a:hover, 
+body button:hover {
+	color: #000;
+}
+
+h2 {
+	margin: 0;
+	position: absolute;
+	top: 1em;
+	left: calc(50% - 4em);
+	z-index: 10;
 }
 
 .site-logo {
@@ -16,7 +30,6 @@ html, body {
 }
 
 #map {
-	/*background-color: #d9d9d9;*/
 	background-color:  #bf965b;
 	width: 100%;
 	height: 100%;
@@ -43,25 +56,44 @@ html, body {
 	margin-top: -23px !important; /* override inline style */
 }
 
+#map.no-projects img[src="./images/projects.png"].leaflet-marker-icon ,
+#map.no-housing img[src="./images/housing.png"].leaflet-marker-icon ,
+#map.no-land img[src="./images/land.png"].leaflet-marker-icon  {
+	display: none;
+}
+.panel-list .panel-list-item:nth-of-type(1),
+.panel-list .panel-list-item:nth-of-type(2),
+.panel-list .panel-list-item:nth-of-type(3),
+.panel-list .panel-list-item:nth-of-type(5) {
+	padding: 0.25em;
+}
+.panel-list .panel-list-item:nth-of-type(1) div,
+.panel-list .panel-list-item:nth-of-type(2) div,
+.panel-list .panel-list-item:nth-of-type(3) div,
+.panel-list .panel-list-item:nth-of-type(5) div {
+	-webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+   	outline: none;
+   	padding: 0.5em;
+   	border-radius: 4px;
+   	border: 1px solid #c1c1c1;
+}
+
+.panel-list .panel-list-item.not-pressed div {
+	-webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 1px solid #c1c1c1;
+}
+
 .link-button {
 	padding: 0.5em;
-	/*border: 1px solid #000;*/
 	border-radius: 0.25em;
-	/*background: #fff;*/
-	/*text-decoration: none;*/
 	color: #000000;
 	position: absolute;
 	top: 1em;
 	right: 1em;
-	z-index: 10;
-}
-
-
-h2 {
-	margin: 0;
-	position: absolute;
-	top: 1em;
-	left: calc(50% - 4em);
 	z-index: 10;
 }
 
@@ -112,7 +144,6 @@ h2 {
 	max-width: 15em;
 	text-align: left;
 	cursor: pointer;
-	pointer-events: none;
 }
 
 #controlcontainer .panel-list .panel-list-item img {
@@ -128,6 +159,7 @@ h2 {
 	vertical-align: 12px;
 }
 
+#controlcontainer .panel-list .panel-list-item button:hover,
 #controlcontainer .panel-list .panel-list-item a:hover {
 	color:  #000;
 }
@@ -141,6 +173,11 @@ h2 {
     line-height: 19.5px !important;
     vertical-align: top;
 }
+
+#controlcontainer .panel-list .panel-list-item:nth-of-type(4) li {
+	cursor: default;
+}
+
 #controlcontainer .panel-list .panel-list-item ul {
 	list-style: disc;
 }

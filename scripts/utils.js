@@ -48,10 +48,10 @@ function polygonIconPosition(feature){
 	let latsTotal = 0;
 	let longsTotal = 0;
 	for(const prop in feature) {
-		if (prop.includes('Latitude')) {
+		if (prop.includes('Latitude') && feature[prop]) {
 			lats.push(feature[prop])
 			latsTotal += Number(feature[prop]);
-		} else if (prop.includes('Longitute')) {
+		} else if (prop.includes('Longitute') && feature[prop]) {
 			longs.push(feature[prop])
 			longsTotal += Number(feature[prop]);
 		}

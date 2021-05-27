@@ -110,13 +110,6 @@ map.on('zoomend', function() {
 	$('#map').toggleClass('medium-icons',currentZoom < 10 && currentZoom > 7);
 });
 
-const criteriaHTML = `<ul><b>Criteria:</b>
-						<li>Not for-profit</li>
-						<li>Not exclude people on grounds of identity</li>
-						<li>Not be managed by the state</li>
-						<li>Democratically run (and owned as appropriate)</li>
-					</ul>`;
-
 const searchboxControl = createSearchboxControl();
 const control = new searchboxControl({
     sidebarTitleText: 'Legend',
@@ -125,7 +118,7 @@ const control = new searchboxControl({
             { type: "button", name: '<b>Land:</b> Autonomus Communities, Agricultural Projects, Food Security, etc.', icon: './images/land.png', onclick: 'toggleLand();' },
             { type: "button", name: "<b>Housing:</b> Housing Co-ops, Residencies, etc.", icon: './images/housing.png', onclick: 'toggleHousing();' },
             { type: "button", name: "<b>Projects:</b> Co-op bookstores, Project Spaces, etc.", icon: './images/projects.png', onclick: 'toggleProjects();'},
-            { type: "text", name: criteriaHTML },
+            { type: "button", name: "<b>About</b>", icon: './images/info.png', onclick: 'toggleModal();'},
             { type: "link", name: "Suggest a Space", href: 'https://docs.google.com/spreadsheets/d/11F-WLs4tI3b6HezGhsXOo4FaYitRZ5UbmH8wDz2oUMs/edit#gid=0', icon: './images/add.png' },
         ]
     }

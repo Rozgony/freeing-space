@@ -1,14 +1,14 @@
-let freeingSpacesJSON = [];
-freeingSpacesFromCSV.forEach(space => {
-	if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
-		freeingSpacesJSON.push(convertToGeoJSON(space));
-	}
+// let freeingSpacesJSON = [];
+// freeingSpacesFromCSV.forEach(space => {
+// 	if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
+// 		freeingSpacesJSON.push(convertToGeoJSON(space));
+// 	}
 
-	if (space['Latitude 2'] && space['Longitute 2'] && space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
-		const toAdd = polygonIconPosition(space);
-		freeingSpacesJSON.push(convertToGeoJSON(toAdd));
-	}
-});
+// 	if (space['Latitude 2'] && space['Longitute 2'] && space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
+// 		const toAdd = polygonIconPosition(space);
+// 		freeingSpacesJSON.push(convertToGeoJSON(toAdd));
+// 	}
+// });
 
 // Map Options
 const basic = {
@@ -43,6 +43,8 @@ const freeColor = 'red';
 const map = L.map('map').setView([0, 0], 2);
 
 map.zoomControl.setPosition('topright');
+
+$('.backdrop').show();
 
 L.tileLayer(mapData.osm, {
 	maxZoom: 18,
@@ -79,30 +81,51 @@ const projectIcon = L.icon({
 	color: freeColor
 });
 
-L.geoJSON(freeingSpacesJSON, {
-	style: function (feature) {
-		return {'color': feature.properties.freed ? freeColor : '#bf965b'};
-	},
-	onEachFeature: onEachFeature,
-	markersInheritOptions: true,
-	pointToLayer: function (feature, latlng) {
-		if (feature.properties.type === 'Housing') {
-			return L.marker(latlng, {icon: housingIcon});
-		} else if (feature.properties.type === 'Land / Food') {
-			return L.marker(latlng, {icon: landIcon});
-		} else if (feature.properties.type === 'Projects') {
-			return L.marker(latlng, {icon: projectIcon});
-		} else {
-			return L.circleMarker(latlng, {
-				radius: 6,
-				fillColor: freeColor,
-				weight: 1,
-				opacity: 1,
-				opacity: 1,
-			});
+getData(); 
+
+async function getData(){
+	let freeingSpacesJSON = [];
+	freeingSpacesFromCSV.forEach(space => {
+		if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
+			freeingSpacesJSON.push(convertToGeoJSON(space));
 		}
-	}
-}).addTo(map);
+
+		if (space['Latitude 2'] && space['Longitute 2'] && space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
+			const toAdd = polygonIconPosition(space);
+			freeingSpacesJSON.push(convertToGeoJSON(toAdd));
+		}
+	});
+
+	const squatsGeo = await getSquats();
+	freeingSpacesJSON = freeingSpacesJSON.concat(squatsGeo);
+
+	L.geoJSON(freeingSpacesJSON, {
+		style: function (feature) {
+			return {'color': feature.properties.freed ? freeColor : '#bf965b'};
+		},
+		onEachFeature: onEachFeature,
+		markersInheritOptions: true,
+		pointToLayer: function (feature, latlng) {
+			if (feature.properties.type === 'Housing') {
+				return L.marker(latlng, {icon: housingIcon});
+			} else if (feature.properties.type === 'Land / Food') {
+				return L.marker(latlng, {icon: landIcon});
+			} else if (feature.properties.type === 'Projects') {
+				return L.marker(latlng, {icon: projectIcon});
+			} else {
+				return L.circleMarker(latlng, {
+					radius: 6,
+					fillColor: freeColor,
+					weight: 1,
+					opacity: 1,
+					opacity: 1,
+				});
+			}
+		}
+	}).addTo(map);
+
+	hideBackdrop();
+}
 
 map.on('zoomend', function() {
 	const currentZoom = map.getZoom();
@@ -138,7 +161,7 @@ control._searchfunctionCallBack = searchkeywords => {
 	    	searchLayer = L.geoJson(msg[0].geojson).addTo(map);
 			map.fitBounds(searchLayer.getBounds());
 		}
-		$('.backdrop').hide();
+		hideBackdrop();
   	});
 }
 

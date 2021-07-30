@@ -58,6 +58,50 @@ body button:hover {
 	height: auto;
 }
 
+@-webkit-keyframes fadeIn {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+@keyframes fadeIn {
+   0% {opacity: 0;}
+   100% {opacity: 1;}
+} 
+
+@-webkit-keyframes fadeOut {
+	0% {opacity: 1;}
+	100% {opacity: 0;}
+}
+
+@keyframes fadeOut {
+   0% {opacity: 1;}
+   100% {opacity: 0;}
+} 
+
+#map img.leaflet-marker-icon {
+    -webkit-animation-duration: 6s;
+    animation-duration: 6s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.backdrop.fade-out {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fade-in {
+	-webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+
+.fade-out {
+	-webkit-animation-name: fadeOut;
+    animation-name: fadeOut;
+}
+
 #map.small-icons img.leaflet-marker-icon {
 	width: 16px !important; /* override inline style */
 	height: 18.5px !important; /* override inline style */

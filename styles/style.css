@@ -1,11 +1,52 @@
+/*************** 
+* FONTS & VARA *
+****************/
+@font-face {
+    font-family: headerFont;
+    src: url(Abril_Fatface/AbrilFatface-Regular.ttf);
+}
+
+@font-face {
+    font-family: paragraphFont;
+    src: url(Literata/Literata-VariableFont_opsz,wght.ttf);
+}
+
+
+@font-face {
+    font-family: emphasisFont;
+    src: url(Viaoda_Libre/ViaodaLibre-Regular.ttf);
+}
+
+:root {
+  --gold: #c49829; 
+  --charcoal: #272626;
+  --brown: #593d25;
+
+  --map-grey: #f2f2f2;
+  --map-brown: #593d25;
+  --map-light-tan: #f2d4ae;
+  --map-med-tan: #f2c185;
+  --map-dark-tan: #a68358;
+}
+
+/********* 
+* STYLES *
+**********/
 html, body {
-	/*background-color: #d9d9d9;*/
 	background-color: #bf965b;
 	height: 100%;
 	margin: 0;
-	color: #000000;
-	font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+	color: var(--charcoal);
+	font-family: paragraphFont;
 	cursor: default;
+}
+.panel-header .panel-header-title {
+	font-family: headerFont;
+}
+
+.panel-list button {
+	font-family: paragraphFont;
+	color: var(--charcoal);
 }
 
 body .panel-content a:hover, 
@@ -14,6 +55,7 @@ body button:hover {
 }
 
 #map h2 {
+	font-family: headerFont;
 	margin: 0;
 	position: absolute;
 	top: 0.5em;
@@ -31,7 +73,7 @@ body button:hover {
 }
 
 #map {
-	background-color:  #bf965b;
+	background-color: #bf965b;
 	width: 100%;
 	height: 100%;
 	opacity: 0.7;
@@ -56,6 +98,68 @@ body button:hover {
 
 #map #controlcontainer .panel {
 	height: auto;
+	background-color: var(--charcoal);
+	border-radius: 4px;
+	border-top-left-radius: 0px;
+}
+
+#map #controlcontainer a,
+#map #controlcontainer button,
+#map #controlcontainer .panel-header-title {
+	/*color: var(--gold);*/
+	color: #fff;
+}
+
+#controlcontainer #boxcontainer {
+	background-color: var(--charcoal);
+	border-radius: 4px;
+}
+
+#controlcontainer #boxcontainer #searchboxinput {
+	color: #fff;
+	font-size: 1.33em;
+}
+
+#controlcontainer .searchbox-menubutton::before,
+#controlcontainer #searchbox-searchbutton::before,
+#controlcontainer .panel-list-item:nth-of-type(4) .panel-list-item-icon,
+#controlcontainer .panel-list-item:nth-of-type(5) .panel-list-item-icon{
+	filter: invert(100%);
+}
+
+#controlcontainer #searchbox-clear {
+	color: #b2a593;
+	font-weight: bold;
+	top: 0.25em;
+}
+
+.panel-list-item .panel-list-item-icon {
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    opacity: .5;
+    background: #fff;
+    margin-right: 12px;
+    border-radius: 23px;
+    padding: 4px;
+}
+/* not low opacity so adjust */
+button.my-location.material-icons {
+	background-color: #544735;
+	color: #c29737;
+}
+.leaflet-control-zoom.leaflet-bar.leaflet-control a {
+    background-color: var(--charcoal);
+    color: var(--gold);
+}
+
+#controlcontainer .searchbox-searchbutton-container, 
+#controlcontainer .searchbox-searchbutton-container::after {
+	border: none;
+}
+
+#controlcontainer #panelbutton.panel-close-button {
+	filter: invert(1);
 }
 
 @-webkit-keyframes fadeIn {
@@ -78,7 +182,8 @@ body button:hover {
    100% {opacity: 0;}
 } 
 
-#map img.leaflet-marker-icon {
+#map img.leaflet-marker-icon,
+#map .leaflet-interactive {
     -webkit-animation-duration: 6s;
     animation-duration: 6s;
     -webkit-animation-fill-mode: both;
@@ -209,6 +314,7 @@ body button:hover {
 #controlcontainer .panel-list .panel-list-item img.plus {
 	width: 2.5em;
 	height: 2.5em;
+	margin: 4px 0 0 4px;
 }
 
 #controlcontainer .panel-list .panel-list-item a.link {
@@ -264,16 +370,27 @@ body button:hover {
 }
 
 .modal-container .modal {
+	border-image-source: url('../images/border-image.png');
+    border-image-slice: 70;
+    border-image-repeat: stretch;
+    border-width: 70px;
+    border-style: solid;
 	margin: 1em;
 	max-width: 90%;
 	width: 600px;
-	background-color: #e0d3c2;
-	border: 1px solid #000;
-	padding: 1em;
-	border-radius: 4px;
 	position: relative;
 	max-height: calc(100% - 3em);
 	overflow: scroll;
+	color: var(--gold);
+}
+
+.modal-container .modal .modal-content {
+	background-color: var(--charcoal);
+	padding: 1em;
+}
+
+.modal-container .modal .modal-content li:hover {
+	color: var(--gold);
 }
 
 .modal p,
@@ -284,16 +401,19 @@ body button:hover {
 .modal ul li {
 	margin-left: 1em;
 	list-style: disc;
-	color: #000;
+	/*color: #000;*/
 	cursor: default;
 	font-size: 16px;
 	line-height: normal;
+
+
 }
 
 .modal .close-modal {
 	position: absolute;
 	top: 1em;
 	right: 1em;
+	color: var(--gold);
 }
 
 @media screen and (max-height: 525px) {

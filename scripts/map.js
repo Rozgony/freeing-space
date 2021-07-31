@@ -1,15 +1,3 @@
-// let freeingSpacesJSON = [];
-// freeingSpacesFromCSV.forEach(space => {
-// 	if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
-// 		freeingSpacesJSON.push(convertToGeoJSON(space));
-// 	}
-
-// 	if (space['Latitude 2'] && space['Longitute 2'] && space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
-// 		const toAdd = polygonIconPosition(space);
-// 		freeingSpacesJSON.push(convertToGeoJSON(toAdd));
-// 	}
-// });
-
 // Map Options
 const basic = {
 	osm: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -96,6 +84,11 @@ async function getData(){
 		}
 	});
 
+	brazilIndigenousOfficial.forEach(space => {
+		freeingSpacesJSON.push(convertBrazilIndigenousToGeoJSON(space));
+	});
+
+	// const squatsGeo = [];
 	const squatsGeo = await getSquats();
 	freeingSpacesJSON = freeingSpacesJSON.concat(squatsGeo);
 

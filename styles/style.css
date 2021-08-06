@@ -19,7 +19,8 @@
 
 :root {
   --gold: #c49829; 
-  --charcoal: #272626;
+  --charcoal: #010000;
+  --charcoal-normal: #272626;
   --brown: #593d25;
 
   --map-grey: #f2f2f2;
@@ -145,8 +146,8 @@ body button:hover {
 }
 /* not low opacity so adjust */
 button.my-location.material-icons {
-	background-color: #544735;
-	color: #c29737;
+	background-color: var(--charcoal-normal);
+	color: var(--gold);
 }
 .leaflet-control-zoom.leaflet-bar.leaflet-control a {
     background-color: var(--charcoal);
@@ -283,8 +284,8 @@ button.my-location.material-icons {
 	position: absolute;
 	top: 40%;
 	left: 40%;
-	animation: spin 2s ease-in-out infinite;
-    -webkit-animation: spin 2s ease-in-out infinite;
+	animation: spin 2s linear infinite;
+    -webkit-animation: spin 2s linear infinite;
 }
 
 @keyframes spin {

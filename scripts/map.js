@@ -26,7 +26,8 @@ const bw = {
 
 const mapData = bw; // Select from the Map Options above
 
-const freeColor = 'red';
+// const freeColor = '#c49829';//'red';
+const freeColor = '#010000';//'red';
 
 const map = L.map('map').setView([0, 0], 2);
 
@@ -86,11 +87,16 @@ async function getData(){
 
 	brazilIndigenousOfficial.forEach(space => {
 		freeingSpacesJSON.push(convertBrazilIndigenousToGeoJSON(space));
+		freeingSpacesJSON.push(convertBrazilIndigenousToGeoJSONPoint(space));
 	});
 
-	// const squatsGeo = [];
-	const squatsGeo = await getSquats();
-	freeingSpacesJSON = freeingSpacesJSON.concat(squatsGeo);
+	try {
+		// const squatsGeo = [];
+		const squatsGeo = await getSquats();
+		freeingSpacesJSON = freeingSpacesJSON.concat(squatsGeo);
+	} catch (err) {
+		console.log('Error getting squats: ',err);
+	}
 
 	L.geoJSON(freeingSpacesJSON, {
 		style: function (feature) {

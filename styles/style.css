@@ -20,7 +20,8 @@
 :root {
   --gold: #c49829; 
   --charcoal: #010000;
-  --charcoal-normal: #272626;
+  --charcoal-normal: #272626; 
+  --charcoal-alt: #261e12;
   --brown: #593d25;
 
   --map-grey: #f2f2f2;
@@ -41,8 +42,9 @@ html, body {
 	font-family: paragraphFont;
 	cursor: default;
 }
-.panel-header .panel-header-title {
+#map #controlcontainer .panel-header .panel-header-title {
 	font-family: headerFont;
+	color: var(--gold);
 }
 
 .panel-list button {
@@ -386,7 +388,8 @@ button.my-location.material-icons {
 }
 
 .modal-container .modal .modal-content {
-	background-color: var(--charcoal);
+	/*background-color: var(--charcoal);*/
+	background-color: var(--charcoal-alt);
 	padding: 1em;
 }
 

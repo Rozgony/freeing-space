@@ -74,9 +74,11 @@ getData();
 
 async function getData(){
 	let freeingSpacesJSON = [];
+	let totalSpaces = brazilIndigenousOfficial ? brazilIndigenousOfficial.length : 0;
 	freeingSpacesFromCSV.forEach(space => {
 		if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
 			freeingSpacesJSON.push(convertToGeoJSON(space));
+			totalSpaces++;
 		}
 
 		if (space['Latitude 2'] && space['Longitute 2'] && space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
@@ -93,10 +95,13 @@ async function getData(){
 	try {
 		// const squatsGeo = [];
 		const squatsGeo = await getSquats();
+		totalSpaces += squatsGeo.length;
 		freeingSpacesJSON = freeingSpacesJSON.concat(squatsGeo);
 	} catch (err) {
 		console.log('Error getting squats: ',err);
 	}
+
+	$('#number-of-spaces').text(totalSpaces || '');
 
 	L.geoJSON(freeingSpacesJSON, {
 		style: function (feature) {

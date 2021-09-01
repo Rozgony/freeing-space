@@ -90,7 +90,7 @@ function Map() {
 			  							polygonData.map((space,i) => {
 											const multiPolygon = space?.geometry?.coordinates;
 											return multiPolygon ? <Polygon key={`polygon${i}`} pathOptions={freeColor} icon={housingIcon} positions={multiPolygon} >
-																	<CustomPopup properties={space?.properties}/>
+																	<CustomPopup space={space}/>
 																</Polygon> : null;
 								  		})
 			  						}
@@ -103,7 +103,7 @@ function Map() {
 																const isValid = !!point && !isNaN(point[1]);
 																const icon = housingIcon;
 																return isValid ? <Marker key={`marker${i}`} position={point} icon={icon}>
-																	        		<CustomPopup properties={space?.properties}/>
+																	        		<CustomPopup space={space}/>
 																	    		</Marker> : null;
 													  		})
 												  		}
@@ -117,7 +117,7 @@ function Map() {
 																const isValid = !!point && !isNaN(point[1]);
 																const icon = projectsIcon;
 																return isValid ? <Marker key={`marker${i}`} position={point} icon={icon}>
-																	        		<CustomPopup properties={space?.properties}/>
+																	        		<CustomPopup space={space}/>
 																	    		</Marker> : null;
 													  		})
 									  					}
@@ -131,7 +131,7 @@ function Map() {
 															const isValid = !!point && !isNaN(point[1]);
 															const icon = landIcon;
 															return isValid ? <Marker key={`marker${i}`} position={point} icon={icon}>
-																        		<CustomPopup properties={space?.properties}/>
+																        		<CustomPopup space={space}/>
 																    		</Marker> : null;
 												  		})
 												  	}

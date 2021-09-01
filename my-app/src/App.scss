@@ -71,6 +71,18 @@ header.page-name {
 	}
 }
 
+.popup-button {
+	background: transparent;
+    border: none;
+    cursor: pointer;
+
+    img {
+    	width: 1em;
+		position: relative;
+		top: 0.125em;
+    }
+}
+
 .js-large-icons .leaflet-marker-icon.leaflet-div-icon {
 	width: 32px !important;
 	height:  32px !important;

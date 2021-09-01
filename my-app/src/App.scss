@@ -207,11 +207,15 @@ menu {
 		font-family: paragraphFont;
 
 		li {
-			border: 1px solid var(--gold);
+			border: 1px solid transparent;
 			border-radius: var(--border-radius);
 			padding: 0.25em;
-			box-shadow: rgb(193, 193, 193) 0px 0px 5px 0px inset;
 			margin: 0.5em;
+
+			&.selected {
+				box-shadow: rgb(193, 193, 193) 0px 0px 5px 0px inset;
+				border-color: var(--gold);
+			}
 
 			button {
 				text-align: left;

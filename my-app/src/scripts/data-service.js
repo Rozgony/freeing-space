@@ -90,10 +90,13 @@ function createMultiPolygonGeometry(geom){
 			});
 			return [lon,lat];
 		});
-		// if (coordsGroup.length > 20) {
-		// 	// if there are more than 20 points, filter out every other one
-		// 	coordsGroup = coordsGroup.filter( (coords,i) => i % 2 == 0);
-		// };
+		if (coordsGroup.length > 50) {
+			// if there are more than 50 points, filter out every other one
+			coordsGroup = coordsGroup.filter( (coords,i) => i % 2 !== 0 && i % 3 !== 0);
+		} else if (coordsGroup.length > 25) {
+			// if there are more than 25 points, filter out every other one
+			coordsGroup = coordsGroup.filter( (coords,i) => i % 2 === 0);
+		};
 
 		coordinates.push(coordsGroup);
 		const newGeoString = geoString.slice(end+3); // account for ")),"

@@ -2,12 +2,12 @@ import { useMapEvents } from 'react-leaflet';
 
 function MapListener({icons}) { 
 	const map = useMapEvents({    
-		click: click => {
-			console.log(click.latlng);
-		},
+		// click: click => {
+		// 	console.log(click.latlng);
+		// },
 		zoom: (zoom) => {    
 			const zoomLevel = map.getZoom();
-			console.log('zoom: '+zoomLevel);
+			// console.log('zoom: '+zoomLevel);
 			if (zoomLevel >= 10) {
 				if (!map._container.classList.contains('js-large-icons')) {
 					map._container.classList.add('js-large-icons');

@@ -6,7 +6,6 @@ function ZoomTo(){
 	const map = useMap();
 
 	function locateMe(){
-		console.log({map});
 		map.locate({setView: true, maxZoom: 16, enableHighAccuracy: true});
 	}
 	return(

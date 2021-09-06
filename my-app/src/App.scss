@@ -183,6 +183,15 @@ button.locate-me {
     }
 }
 
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 100%;
+    }
+}
+
 menu.slide-up {
 	animation-name: slideUp;
     animation-duration: 500ms;
@@ -190,6 +199,15 @@ menu.slide-up {
     animation-fill-mode: forwards;
     animation-iteration-count: 1;
 }
+
+.leaflet-div-icon {
+	animation-name: fadeIn;
+    animation-duration: 750ms;
+    animation-delay: 0s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: 1;
+}
+
 menu {
 	padding: 0;
 	background-color: var(--brown);

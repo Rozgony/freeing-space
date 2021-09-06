@@ -5,8 +5,6 @@ import SideMenu from './SideMenu.jsx';
 const burgerIcon = require('./../images/burger_icon.png').default;
 const searchIcon = require('./../images/search_icon.png').default;
 
-
-
 function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,toggleLandVisibility,toggleProjectsVisibility}){
 	const map = useMap();
 	const [menuVisible, setVisibility] = useState(false);
@@ -46,7 +44,6 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 			})
 			.then( response => response.json())
 			.then( data => {
-				console.log({data})
 		  		if (data && data.length && data[0].geojson) {
 			    	setSearchLayer(L.geoJson(data[0].geojson).addTo(map));
 				}

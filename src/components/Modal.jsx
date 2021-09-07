@@ -1,23 +1,12 @@
-// const borderImageSrc = require('../images/About-page.png').default;
-// const borderImageSrc = require('../images/border-image.png').default;
-
+const borderImageSrc = require('../images/About-page.png').default;
 
 function Modal({toggleModalVisibility,animationclass}){
-	/* source | slice | width | outset | repeat */
-	//url("/images/border.png") 27 23 / 50px 30px / 1rem round space;
-    // border-image-slice: 70;
-    // border-image-repeat: stretch;
-    // border-width: 70px;
-    // border-style: solid;
-    //200 / 200px / 2rem stretch;
-    // 300 / 300px / 300px 200px stretch 
-	// const borderStyle = {
-	// 	// borderImage: `url('${borderImageSrc}') 70 / 70px / 1rem round stretch`
-	// 	backgroundImage: `url('${borderImageSrc}')`
-	// };
+	const borderStyle = {
+		borderImage: `url('${borderImageSrc}') 260 300 200 360 / auto stretch`
+	};
 	return(
-		<div className="backdrop" >
-			<div className="modal-border">
+		<div className="backdrop is-dark" >
+			<div className="modal-border" style={borderStyle}>
 				<div className="modal-content">
 					<button className="close-modal" onClick={toggleModalVisibility}> X </button>
 					<header><em>About</em></header>

@@ -24,6 +24,12 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 		}
 	};
 
+
+	const toggleModal = () => {
+		toggleModalVisibility();
+		toggleMenu();
+	};
+
 	const removeSearch = isClear => {
 		if (searchLayer) {
 			map.removeLayer(searchLayer);
@@ -83,7 +89,7 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 				<button className="search-box-icon" onClick={searchLocation}><img alt="magifying glass" src={searchIcon}/></button>
 			</div>
 			{ !menuVisible || <SideMenu 
-								toggleModalVisibility={toggleModalVisibility} 
+								toggleModalVisibility={toggleModal} 
 								animationclass={aniclass} 
 								toggleHousingVisibility={toggleHousingVisibility}
 								toggleLandVisibility={toggleLandVisibility}

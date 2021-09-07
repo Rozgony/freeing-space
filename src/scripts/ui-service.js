@@ -27,7 +27,7 @@ function createMarker(space,icon){
      const point = space?.geometry?.coordinates;
      const content = createPopupContent(space);
      const marker = L.marker(point, { icon });
-     marker.bindPopup(content);
+     marker.bindPopup(content,{maxWidth: 250});
      return marker;
 }
 
@@ -54,7 +54,7 @@ function createPolygon(space){
      const latlngs = space?.geometry?.coordinates;
      const content = createPopupContent(space);
      const polygon = L.polygon(latlngs, {color: '#010000'});
-     polygon.bindPopup(content);
+     polygon.bindPopup(content,{maxWidth: 250});
      return polygon;
 }
 

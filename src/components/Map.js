@@ -116,6 +116,7 @@ function Map() {
 
 				setShowSpinner(false);
 			});
+		// eslint-disable-next-line
 	},[]);
 
   	return (

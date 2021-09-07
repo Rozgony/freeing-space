@@ -76,6 +76,7 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 				toggleSpinner(false);
 			});
 		}
+		// eslint-disable-next-line
 	},[searchLayer,map]);
 
 	return(

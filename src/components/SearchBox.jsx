@@ -64,7 +64,11 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 
 	useEffect(() => {
 		if (searchLayer) {
-			map.fitBounds(searchLayer.getBounds());
+			toggleSpinner(true);
+			setTimeout(()=>{
+				map.fitBounds(searchLayer.getBounds());
+				toggleSpinner(false);
+			});
 		}
 	},[searchLayer,map]);
 

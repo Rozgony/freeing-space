@@ -13,6 +13,8 @@ import './../App.scss';
 const chimera1Path = require('./../images/Chimera-1.png').default;
 const chimera2Path = require('./../images/chimera-02.png').default;
 const monsterPath = require('./../images/monster-3.png').default;
+const namePath = require('./../images/Parchment-transparent-1.png').default;
+// const namePath = require('./images/Logo-parchment.png').default;
 let { polygonData, landData, projectsData, housingData } = getStaticData();
 
 const chimera1Bounds = new L.LatLngBounds([-31.05293398570515, -27.070312500000004], [-48.2246726495652, 10.546875000000002]);
@@ -78,7 +80,11 @@ function Map() {
 					const zoom = 16;
 					const latlng = event?.popup?._latlng;
 					if (latlng) {
-						map.setView([latlng.lat,latlng.lng], zoom);
+						toggleSpinner(true);
+						setTimeout(() =>{
+							map.setView([latlng.lat,latlng.lng], zoom);
+							toggleSpinner(false);
+						});
 					}
 				}
 				popupButton.current.addEventListener('click', jumpToLocation.current);
@@ -114,6 +120,11 @@ function Map() {
 
   	return (
   		<>
+			{ 
+				modalVisible || <header className="page-name">
+									<img alt="Freeing Space" src={namePath}/>
+								</header>
+			}
 			<TileLayer
 		  		attribution='Imagery © <a href=\"https://ge-map-overlays.appspot.com/openstreetmap/mapnik\">mapnik</a>'
 		  		url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
@@ -127,7 +138,7 @@ function Map() {
 			{ !modalVisible || <Modal toggleModalVisibility={toggleModalVisibility}/> }
 			{ !showSpinner || <Spinner/> }
 			<ZoomControl position="topright"/>
-			<ZoomTo />
+			<ZoomTo toggleSpinner={toggleSpinner}/>
 			<MapListener/>   
 			<ImageOverlay url={chimera1Path} bounds={chimera1Bounds} opacity={1} zIndex={1001}/>
 			<ImageOverlay url={chimera2Path} bounds={chimera2Bounds} opacity={1} zIndex={1001}/>

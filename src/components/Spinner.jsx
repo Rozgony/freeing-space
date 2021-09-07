@@ -1,7 +1,6 @@
 const spinnerPath = require('./../images/spinner.png').default;
 
-
-function Spinner({toggleModalVisibility,animationclass}){
+function Spinner(){
 	return (
 		<div className="backdrop" >
 			<img className="page-spinner" alt="a compass as the spinner" src={spinnerPath}/>

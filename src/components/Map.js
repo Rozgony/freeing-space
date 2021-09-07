@@ -88,6 +88,7 @@ function Map() {
 					}
 				}
 				popupButton.current.addEventListener('click', jumpToLocation.current);
+				popupButton.current.addEventListener('touch', jumpToLocation.current);
 			}
 		}
 	});
@@ -95,6 +96,7 @@ function Map() {
 	map.on('popupclose', function(){
 		if (popupButton.current) {
 			popupButton.current.removeEventListener('click', jumpToLocation.current);
+			popupButton.current.removeEventListener('touch', jumpToLocation.current);
 			popupButton.current = null;
 		}
 	});

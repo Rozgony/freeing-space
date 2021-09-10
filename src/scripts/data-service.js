@@ -211,6 +211,19 @@ function convertSquatToGeoJSON(squat) {
 }
 
 
+function removeEmptyProps(){
+	const smallerDataset = freeingSpacesFromCSV.map( space => {
+		for (let prop in space) {
+			if(!space[prop]) {
+				delete space[prop];
+			}
+		}
+		return space;
+	});
+
+	download(JSON.stringify(smallerDataset),'freeingspace_data.js');
+}
+
 function getStaticData(){
 	const polygonData = brazilCondensed;
 	const landData = JSON.parse(landDataStr);
@@ -240,6 +253,10 @@ function getStaticData(){
 			}
 		}
 	});
+
+	// uncomment to save a version of freeingSpacesFromCSV that does not have empty props from the spreadsheet.
+	// removeEmptyProps();
+
 	return { polygonData, landData, projectsData, housingData };
 }
 
@@ -301,6 +318,7 @@ export {
 	convertToGeoJSON,
 	polygonIconPosition,
 	download,
+	removeEmptyProps,
 	getStaticData,
 	getSquats
 }

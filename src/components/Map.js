@@ -29,6 +29,7 @@ function Map() {
 	const polygonRef = useRef();
 
 	const [modalVisible, setModalVisibility] = useState(false);
+	const [totalSpaces, setTotalSpaces] = useState(0);
 	const toggleModalVisibility = () => setModalVisibility(!modalVisible);
 	
 	const [housingVisible, setHousingVisible] = useState(true);
@@ -114,8 +115,20 @@ function Map() {
 				landRef.current = createMarkerLayer(map,landData,landIcon);
 				projectsRef.current = createMarkerLayer(map,projectsData,projectsIcon);
 				polygonRef.current = createPolygonsLayer(map,polygonData);
-				housingRef.current = createMarkerLayer(map,housingData,housingIcon);			
+				housingRef.current = createMarkerLayer(map,housingData,housingIcon);	
 
+				let totalSpacesCount = 0;
+				if (typeof landRef.current?._layers === 'object') {
+					totalSpacesCount += Object.keys(landRef.current?._layers).length;
+				}
+				if (typeof projectsRef.current?._layers === 'object') {
+					totalSpacesCount += Object.keys(projectsRef.current?._layers).length;
+				}
+				if (typeof housingRef.current?._layers === 'object') {
+					totalSpacesCount += Object.keys(housingRef.current?._layers).length;
+				}
+				setTotalSpaces(totalSpacesCount);
+				
 				setShowSpinner(false);
 			});
 		// eslint-disable-next-line
@@ -138,7 +151,7 @@ function Map() {
 				toggleHousingVisibility={toggleHousingVisibility}
 				toggleLandVisibility={toggleLandVisibility}
 				toggleProjectsVisibility={toggleProjectsVisibility}/>
-			{ !modalVisible || <Modal toggleModalVisibility={toggleModalVisibility}/> }
+			{ !modalVisible || <Modal toggleModalVisibility={toggleModalVisibility} totalSpaces={totalSpaces}/> }
 			{ !showSpinner || <Spinner/> }
 			<ZoomControl position="topright"/>
 			<ZoomTo toggleSpinner={toggleSpinner}/>

@@ -1,6 +1,6 @@
 const borderImageSrc = require('../images/About-page.png').default;
 
-function Modal({toggleModalVisibility,animationclass}){
+function Modal({toggleModalVisibility,totalSpaces}){
 	const borderStyle = {
 		borderImage: `url('${borderImageSrc}') 260 300 200 360 / auto stretch`
 	};
@@ -25,7 +25,7 @@ function Modal({toggleModalVisibility,animationclass}){
 					    <li>Non-exclusive on grounds of identity</li>
 					</ul>
 					
-					<p>Our hope is that collecting these <span id="number-of-spaces"></span> heterogeneous efforts on a single map aids the construction of worlds outside of state and capital.</p>
+					<p>Our hope is that collecting these {totalSpaces || null} heterogeneous efforts on a single map aids the construction of worlds outside of state and capital. <a href="mailto:freeingspace@riseup.net.">Contact us for more info.</a></p>
 				</div>
 			</div>
 		</div>

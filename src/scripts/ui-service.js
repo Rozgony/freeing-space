@@ -46,7 +46,7 @@ function createPopupContent(space,isPolygon){
      if (!properties) {
           return ''
      }
-     const title = properties?.url ? `<a href="${properties?.url}">${properties?.admin}</a>` : properties?.admin
+     const title = properties?.url ? `<a target="_blank" href="${properties?.url}">${properties?.admin}</a>` : properties?.admin;
      return `${title} <button class="popup-button"><img alt="a locate icon" src="${locationIconPath}"/></button><br/><em>${properties?.description}</em>`;
 }
 

@@ -5,7 +5,7 @@ import Map from './components/Map';
 function App() {
 	return (
 	<div className="App">
-		<MapContainer center={[0,0]} zoom={2} scrollWheelZoom={true} zoomControl={false} >
+		<MapContainer center={[0,0]} zoom={2} scrollWheelZoom={true} zoomControl={false} tap={false} >
 			<Map/>
 		</MapContainer>
 	</div>

@@ -3,6 +3,7 @@ const housingPath = require('./../images/Housing-transparent.png').default;
 const landPath = require('./../images/Land-transparent.png').default;
 const projectsPath = require('./../images/Mutual-aid.png').default;
 const locationIconPath = require('./../images/my_location.png').default;
+const mapIconPath = require('./../images/map-icon.png').default;
 
 const iconSize = 8;
 const housingIcon = new L.icon({
@@ -47,7 +48,9 @@ function createPopupContent(space,isPolygon){
           return ''
      }
      const title = properties?.url ? `<a target="_blank" href="${properties?.url}">${properties?.admin}</a>` : properties?.admin;
-     return `${title} <button class="popup-button"><img alt="a locate icon" src="${locationIconPath}"/></button><br/><em>${properties?.description}</em>`;
+     const [lat,lon] = space?.geometry?.coordinates;
+     const maplink = `<a class="popup-button" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}"><img alt="a map icon" src="${mapIconPath}"/></a>`
+     return `${title} <button class="popup-button"><img alt="a locate icon" src="${locationIconPath}"/></button>${maplink}<br/><em>${properties?.description}</em>`;
 }
 
 function createPolygon(space){

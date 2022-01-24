@@ -62,7 +62,8 @@ function convertToGeoJSON(space,createIcon){
 					freed: true,
 					url: space.Website || '',
 					description: space.Description || '',
-					type: space['Type'] || ''
+					type: space['Type'] || '',
+					lastConfirmed: space['Last Confirmed Date'] || ''
 				},
 				geometry
 			};

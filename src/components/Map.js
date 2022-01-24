@@ -142,8 +142,8 @@ function Map() {
 								</header>
 			}
 			<TileLayer
-		  		attribution='Imagery © <a href=\"https://ge-map-overlays.appspot.com/openstreetmap/mapnik\">mapnik</a>'
-		  		url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+		  		attribution='Data is open source. Please confirm website before visiting. Imagery © <a href=\"https://ge-map-overlays.appspot.com/openstreetmap/mapnik\">mapnik</a>'
+		  		url="http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
 			/>
 			<SearchBox 
 				toggleModalVisibility={toggleModalVisibility} 

@@ -5,6 +5,10 @@ const projectsPath = require('./../images/Mutual-aid.png').default;
 const locationIconPath = require('./../images/my_location.png').default;
 const mapIconPath = require('./../images/map-icon.png').default;
 
+const basicOSM = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+const watercolorOSM = 'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
+const topoOSM = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+
 const iconSize = 8;
 const housingIcon = new L.icon({
      iconUrl: housingPath,
@@ -49,8 +53,13 @@ function createPopupContent(space,isPolygon){
      }
      const title = properties?.url ? `<a target="_blank" href="${properties?.url}">${properties?.admin}</a>` : properties?.admin;
      const [lat,lon] = space?.geometry?.coordinates;
+     let lastConfirmed = '';
+     if (properties.lastConfirmed) {
+          const dateString = new Date(properties.lastConfirmed).toUTCString();
+          lastConfirmed = `<span>Last Confirmed: ${dateString.slice(0,dateString.indexOf(':') - 3)}</span><br/>`;
+     }
      const maplink = `<a class="popup-button" target="_blank" href="https://www.google.com/maps/search/?api=1&query=${lat},${lon}"><img alt="a map icon" src="${mapIconPath}"/></a>`
-     return `${title} <button class="popup-button"><img alt="a locate icon" src="${locationIconPath}"/></button>${maplink}<br/><em>${properties?.description}</em>`;
+     return `${title} <button class="popup-button"><img alt="a locate icon" src="${locationIconPath}"/></button>${maplink}<br/>${lastConfirmed}<em>${properties?.description}</em>`;
 }
 
 function createPolygon(space){

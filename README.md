@@ -18,7 +18,7 @@ Run `npm start`
 
 
 ## Contributing
-There some known areas that need approvements due to the technical debt aquired from a mix of trying to standup a functional site quickly and an quickly growing data set. Some of these have been listed as Issues but feel free to make other improvements as well.
+There are some known areas that need approvements due to the technical debt aquired from a mix of trying to standup a functional site quickly and a quickly growing data set. Some of these have been listed as Issues but feel free to make other improvements as well.
 
 
 

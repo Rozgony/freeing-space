@@ -6,7 +6,7 @@ import SearchBox from './SearchBox.jsx';
 import Modal from './Modal.jsx';
 import ZoomTo from './ZoomTo.jsx';
 import Spinner from './Spinner.jsx';
-import { getStaticData, getSquats } from './../scripts/data-service.js';
+import { getStaticData, getSquats, parseGoogleSheetsAPIData } from './../scripts/data-service.js';
 import { housingIcon, landIcon, projectsIcon, createMarkerLayer, createPolygonsLayer } from './../scripts/ui-service.js';
 import '../../node_modules/leaflet/dist/leaflet.css';
 import './../App.scss';
@@ -104,7 +104,15 @@ function Map() {
 
 	useEffect(() => {
 		map.setMinZoom(2);
-		getSquats()
+
+		parseGoogleSheetsAPIData()
+			.then( sheetsData => {
+				housingData = housingData.concat(sheetsData.housingData);
+				landData = landData.concat(sheetsData.landData);
+				projectsData = projectsData.concat(sheetsData.projectsData);
+				polygonData = polygonData.concat(sheetsData.polygonData);
+				return getSquats();
+			})
 			.then( data =>{
 				housingData = housingData.concat(data);
 			})

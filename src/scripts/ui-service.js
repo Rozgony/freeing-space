@@ -5,9 +5,9 @@ const projectsPath = require('./../images/Mutual-aid.png').default;
 const locationIconPath = require('./../images/my_location.png').default;
 const mapIconPath = require('./../images/map-icon.png').default;
 
-const basicOSM = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-const watercolorOSM = 'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
-const topoOSM = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+// const basicOSM = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+// const watercolorOSM = 'http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg';
+// const topoOSM = 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
 
 const iconSize = 8;
 const housingIcon = new L.icon({

@@ -1,13 +1,18 @@
 import brazilCondensed from './../geoJSONs/brazilCondensed.js';
+// import galicia from './../geoJSONs/LandMark_Spain_Montes_Std.js';
 import landDataStr from './../geoJSONs/landData.js';
 import freeingSpacesFromCSV from './../geoJSONs/freeingspace_data.js';
+
+// Config variables
+const SPREADSHEET_ID = '11F-WLs4tI3b6HezGhsXOo4FaYitRZ5UbmH8wDz2oUMs';
+const API_KEY = 'AIzaSyBbs50x9JoANPXNH7lr4aTDn-P-XZZoD-g';
 
 function createGeometry(space,createIcon) {
 	const coordinates = [];
 	for (const key in space) {
 		if(key.includes('Latitude') && space[key]) {
 			const lat = Number(space[key]);
-			const long = Number(space[`Longitute ${key.split(' ')[1]}`]);
+			const long = Number(space[`Longitude ${key.split(' ')[1]}`]);
 			coordinates.push([lat,long]);
 		}
 	}
@@ -42,13 +47,13 @@ function polygonIconPosition(feature){
 		if (prop.includes('Latitude') && feature[prop]) {
 			lats.push(feature[prop])
 			latsTotal += Number(feature[prop]);
-		} else if (prop.includes('Longitute') && feature[prop]) {
+		} else if (prop.includes('Longitude') && feature[prop]) {
 			longs.push(feature[prop])
 			longsTotal += Number(feature[prop]);
 		}
 	}
 	toAdd['Latitude 1'] = latsTotal / lats.length;
-	toAdd['Longitute 1'] = longsTotal / longs.length;
+	toAdd['Longitude 1'] = longsTotal / longs.length;
 	return toAdd;
 }
 
@@ -112,6 +117,45 @@ function createMultiPolygonGeometry(geom){
 		coordinates: [coordinates]
 	};
 }
+
+
+// {
+// 	"type":"Feature",
+// 	"geometry": {
+// 		"type":"Polygon",
+// 		"coordinates":[[[-872630.9880999997,5285794.995399997],[-872536.4028999992,5285858.446099997],[-872547.3784000017,5285973.8576000035],[-873492.5971999988,5285629.162100002],[-873460.6618000008,5285614.614],[-873378.8486000001,5285608.352799997],[-873135.1682000011,5285599.033],[-872796.4899000004,5285723.673699997],[-872630.9880999997,5285794.995399997]]]},
+// 		"properties": {
+// 			"OBJECTID":1135667,
+// 			"Identity":"Community",
+// 			"Form_Rec":"Acknowledged by govt",
+// 			"Doc_Status":"Documented",
+// 			"Stat_Date":"",
+// 			"Stat_Note":"",
+// 			"Country":"Spain",
+// 			"ISO_Code":"ESP",
+// 			"Name":"Orgoso",
+// 			"Category":"Montes Veciñais en Man Común",
+// 			"Ethncty_1":"Fufín",
+// 			"Ethncty_2":"",
+// 			"Ethncty_3":"",
+// 			"Populatn":0,
+// 			"Pop_Source":"",
+// 			"Pop_Year":0,
+// 			"Area_Ofcl":6.5,
+// 			"Area_GIS":3.96344438667,
+// 			"Scale":"1:500 000",
+// 			"Method":"Digitized from orthophoto",
+// 			"Data_Ctrb":"Montenoso",
+// 			"Data_Src":"Sistema de Información Territorial de Galicia. Xunta de Galicia",
+// 			"Data_Date":"2009",
+// 			"Add_Note":"",
+// 			"More_info":"",
+// 			"Upl_Date":"2017/04/19",
+// 			"Shape_Leng":2138.04147787,
+// 			"Shape_Area":122808.80797
+// 		}
+// 	}
+// }
 
 function convertBrazilIndigenousToGeoJSON(space){
 	// const space = {
@@ -211,20 +255,6 @@ function convertSquatToGeoJSON(squat) {
 			};
 }
 
-
-function removeEmptyProps(){
-	const smallerDataset = freeingSpacesFromCSV.map( space => {
-		for (let prop in space) {
-			if(!space[prop]) {
-				delete space[prop];
-			}
-		}
-		return space;
-	});
-
-	download(JSON.stringify(smallerDataset),'freeingspace_data.js');
-}
-
 function getStaticData(){
 	const polygonData = brazilCondensed;
 	const landData = JSON.parse(landDataStr);
@@ -233,9 +263,59 @@ function getStaticData(){
 	polygonData.forEach(space => {
 		space.geometry = JSON.parse(space.geometry);
 	});
+	// polygonData = polygonData.concat(galicia.features);
 
-	freeingSpacesFromCSV.forEach(space => {
-		if (space['Name'] && space['Type'] && space['Longitute 1'] && space['Latitude 1']) {
+	return { polygonData, landData, projectsData, housingData };
+}
+
+function createSpacesFromRows(row) {
+	const space = {};
+	let latNumber = 1;
+	let lonNumber = 1;
+	row.values.forEach((item,i) => {
+		let prop;
+
+		if(i === 0) {
+			prop = 'Name';
+		} else if (i === 1) {
+			prop = 'Type';
+		} else if (i === 2) {
+			prop = 'Last Confirmed Date';
+		} else if (i === 3) {
+			prop = 'Website';
+		} else if (i === 4) {
+			prop = 'Description';
+		} else {
+			if (i % 2 === 1) {
+				prop = `Latitude ${latNumber}`;
+				latNumber++;
+			} else {
+				prop = `Longitude ${lonNumber}`;
+				lonNumber++;
+			}
+		}
+		if (prop) {
+			space[prop] = item.formattedValue;
+		}
+	});
+	return space;
+}
+
+async function parseGoogleSheetsAPIData () {
+	const housingData = [];
+	const landData = [];
+	const projectsData = [];
+	const polygonData = [];
+	try {
+		const sheetsData = await getGoogleSheet();
+		const rows = sheetsData.sheets[0].data[0].rowData;
+
+		rows.forEach((row,i) => {
+			if (i === 0) {
+				return;// row 1 is the headers so ignore it
+			}
+
+			const space = createSpacesFromRows(row);
 			const spaceGeoJSON = convertToGeoJSON(space);
 
 			if (space['Type'] === 'Housing') {
@@ -246,22 +326,63 @@ function getStaticData(){
 				projectsData.push(spaceGeoJSON);
 			}
 			
-			if(space['Latitude 2'] && space['Longitute 2']) {
+			if(space['Latitude 2'] && space['Longitude 2']) {
 				polygonData.push(spaceGeoJSON);
 				const createIcon = true;
 				const iconGeoJSON = convertToGeoJSON(space,createIcon);
 				landData.push(iconGeoJSON);
 			}
-		}
-	});
+		})
+	} catch (error) {
+		console.error('Error getting or Parsing Google Sheets Data - Loading Static Data as backup.',error);
+		freeingSpacesFromCSV.forEach(space => {
+			if (space['Name'] && space['Type'] && space['Longitude 1'] && space['Latitude 1']) {
+				const spaceGeoJSON = convertToGeoJSON(space);
 
-	// uncomment to save a version of freeingSpacesFromCSV that does not have empty props from the spreadsheet.
-	// removeEmptyProps();
-
-	return { polygonData, landData, projectsData, housingData };
+				if (space['Type'] === 'Housing') {
+					housingData.push(spaceGeoJSON);
+				} else if (space['Type'] === 'Land / Food') {
+					landData.push(spaceGeoJSON);
+				} else if (space['Type'] === 'Projects') {
+					projectsData.push(spaceGeoJSON);
+				}
+				
+				if(space['Latitude 2'] && space['Longitude 2']) {
+					polygonData.push(spaceGeoJSON);
+					const createIcon = true;
+					const iconGeoJSON = convertToGeoJSON(space,createIcon);
+					landData.push(iconGeoJSON);
+				}
+			}
+		});	
+	}
+	return { polygonData, housingData, landData, projectsData };
 }
 
-
+// async function addSheetRow() {
+// 	const data = {
+// 		Name: 'test Name',
+// 		Type: 'test type',
+// 		Website: 'test Website',
+// 		Description: 'test Description',
+// 		['Latitude 1']: 33.3333333,
+// 		['Longitude 1']: 33.3333333
+// 	};
+// 	const body = {
+// 		"spreadsheetId": SPREADSHEET_ID,
+// 		"tableRange": 'Data',
+// 		"updates": data
+// 	};
+// 	console.log({data});
+// 							//POST https://sheets.googleapis.com/v4/spreadsheets/{spreadsheetId}/values/{range}:append
+// 	const response =  await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/Data:append?key=${API_KEY}`,{
+// 		method: 'POST',
+// 		body: JSON.stringify(body)
+// 	})
+// 	console.log({response});
+// 	const parsedResponse = await response.json();
+// 	console.log({parsedResponse});
+// }
 
 function getSquats(){
 	// https://radar.squat.net/api/1.2/search/location.json?fields=title,map,squat
@@ -289,6 +410,7 @@ function getSquats(){
 	  		const geo = [];
 	  		for (const item in data.result) {
 	  			const squat = data.result[item];
+
 	  			if (squat.map && squat.map.geom && squat.map.lat && squat.map.lon){
 	  				geo.push(convertSquatToGeoJSON(squat));
 	  			}
@@ -302,15 +424,13 @@ function getSquats(){
 	});
 }
 
-
-function download(content,fileName, contentType = 'application/json'){
-   var a = document.createElement('a');
-   var file = new Blob([content],{type:contentType});
-   a.href = URL.createObjectURL(file);
-   a.download = fileName;
-   a.click();
+async function getGoogleSheet(){
+	const response =  await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}?key=${API_KEY}&includeGridData=true&ranges=Data`,{
+		method: 'GET'
+	})
+	const data = await response.json();
+	return data;
 }
-
 
 export {
 	convertBrazilIndigenousToGeoJSON,
@@ -318,8 +438,8 @@ export {
 	convertBrazilIndigenousToGeoStr,
 	convertToGeoJSON,
 	polygonIconPosition,
-	download,
-	removeEmptyProps,
 	getStaticData,
-	getSquats
+	getSquats,
+	parseGoogleSheetsAPIData,
+	// addSheetRow
 }

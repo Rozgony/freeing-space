@@ -1,0 +1,41 @@
+{
+  "files": {
+    "main.css": "/static/css/main.0446ee10.chunk.css",
+    "main.js": "/static/js/main.9c43e16f.chunk.js",
+    "main.js.map": "/static/js/main.9c43e16f.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.f1fc2ee4.js",
+    "runtime-main.js.map": "/static/js/runtime-main.f1fc2ee4.js.map",
+    "static/css/2.3d0b8d2d.chunk.css": "/static/css/2.3d0b8d2d.chunk.css",
+    "static/js/2.1fc2a35f.chunk.js": "/static/js/2.1fc2a35f.chunk.js",
+    "static/js/2.1fc2a35f.chunk.js.map": "/static/js/2.1fc2a35f.chunk.js.map",
+    "static/js/3.8ac467bc.chunk.js": "/static/js/3.8ac467bc.chunk.js",
+    "static/js/3.8ac467bc.chunk.js.map": "/static/js/3.8ac467bc.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/2.3d0b8d2d.chunk.css.map": "/static/css/2.3d0b8d2d.chunk.css.map",
+    "static/css/main.0446ee10.chunk.css.map": "/static/css/main.0446ee10.chunk.css.map",
+    "static/js/2.1fc2a35f.chunk.js.LICENSE.txt": "/static/js/2.1fc2a35f.chunk.js.LICENSE.txt",
+    "static/media/About-page.png": "/static/media/About-page.348626ec.png",
+    "static/media/App.scss": "/static/media/ViaodaLibre-Regular.8a7167d0.ttf",
+    "static/media/Chimera-1.png": "/static/media/Chimera-1.8cf391dd.png",
+    "static/media/Housing-transparent.png": "/static/media/Housing-transparent.8586e714.png",
+    "static/media/Housing.jpg": "/static/media/Housing.77a18da0.jpg",
+    "static/media/Land-transparent.png": "/static/media/Land-transparent.080f3d9f.png",
+    "static/media/Land.jpg": "/static/media/Land.d611e135.jpg",
+    "static/media/Mutual-aid.png": "/static/media/Mutual-aid.522ee257.png",
+    "static/media/Mutual-aid.jpg": "/static/media/Mutual-aid.a6fedc31.jpg",
+    "static/media/Parchment-transparent-1.png": "/static/media/Parchment-transparent-1.e966b198.png",
+    "static/media/about.jpg": "/static/media/about.d2244996.jpg",
+    "static/media/add-your-own.jpg": "/static/media/add-your-own.21ca17ad.jpg",
+    "static/media/chimera-02.png": "/static/media/chimera-02.014a3734.png",
+    "static/media/map-icon.png": "/static/media/map-icon.16c6b593.png",
+    "static/media/monster-3.png": "/static/media/monster-3.d9244b7f.png",
+    "static/media/spinner.png": "/static/media/spinner.51f4dd96.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f1fc2ee4.js",
+    "static/css/2.3d0b8d2d.chunk.css",
+    "static/js/2.1fc2a35f.chunk.js",
+    "static/css/main.0446ee10.chunk.css",
+    "static/js/main.9c43e16f.chunk.js"
+  ]
+}

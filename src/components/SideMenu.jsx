@@ -1,4 +1,5 @@
 import { useState } from 'react';
+// import { addSheetRow } from '../scripts/data-service';
 const addYourOwnIcon = require('./../images/add-your-own.jpg').default;
 const aboutIcon = require('./../images/about.jpg').default;
 const projectsIcon = require('./../images/Mutual-aid.jpg').default;

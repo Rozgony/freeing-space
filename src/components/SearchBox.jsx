@@ -40,7 +40,7 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 	}
 
 	const searchLocation = () => {
-		toggleSpinner(true);
+		toggleSpinner(true,'Seaching for Space...');
 		const isClear = false;
 		removeSearch(isClear);
 		setTimeout(()=>{
@@ -70,7 +70,7 @@ function SearchBox({toggleModalVisibility,toggleSpinner,toggleHousingVisibility,
 
 	useEffect(() => {
 		if (searchLayer) {
-			toggleSpinner(true);
+			toggleSpinner(true,'Seaching for Space...');
 			setTimeout(()=>{
 				map.fitBounds(searchLayer.getBounds());
 				toggleSpinner(false);

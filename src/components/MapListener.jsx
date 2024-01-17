@@ -1,13 +1,10 @@
 import { useMapEvents } from 'react-leaflet';
+import L from 'leaflet';
 
-function MapListener({icons}) { 
+function MapListener({toggleSpinner}) { 
 	const map = useMapEvents({    
-		// click: click => {
-		// 	console.log(click.latlng);
-		// },
 		zoom: (zoom) => {    
 			const zoomLevel = map.getZoom();
-			// console.log('zoom: '+zoomLevel);
 			if (zoomLevel >= 10) {
 				if (!map._container.classList.contains('js-large-icons')) {
 					map._container.classList.add('js-large-icons');
@@ -30,7 +27,24 @@ function MapListener({icons}) {
 					map._container.classList.remove('js-medium-icons');
 				}
 			}
-		},  
+		},
+		locationfound: (e) => {
+			map.flyTo(e.latlng, map.getZoom());
+			const radius = e.accuracy;
+			const circle = L.circle(e.latlng, {
+				radius,
+				weight: 8,
+				opacity: 0.9
+			});
+			circle.addTo(map);
+			toggleSpinner(false);
+		},
+		locationerror: (e) => {
+			toggleSpinner(true,'Issue Finding Current Location');
+			setTimeout(()=>{
+				toggleSpinner(false);
+			},500);
+		}
 	})  
 	return null
 }

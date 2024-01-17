@@ -6,10 +6,9 @@ function ZoomTo({toggleSpinner}){
 	const map = useMap();
 
 	function locateMe(){
-		toggleSpinner(true);
+		toggleSpinner(true,'Jumping to Location...');
 		setTimeout(()=>{
 			map.locate({setView: true, maxZoom: 16, enableHighAccuracy: true});
-			toggleSpinner(false);
 		});
 	}
 	return(

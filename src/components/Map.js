@@ -30,6 +30,7 @@ function Map() {
 
 	const [modalVisible, setModalVisibility] = useState(false);
 	const [totalSpaces, setTotalSpaces] = useState(0);
+	const [spinnerText, setSpinnerText] = useState('Loading Brazil Data...');
 	const toggleModalVisibility = () => setModalVisibility(!modalVisible);
 	
 	const [housingVisible, setHousingVisible] = useState(true);
@@ -63,11 +64,13 @@ function Map() {
 	}
 
 	const [showSpinner, setShowSpinner] = useState(true);
-	const toggleSpinner = (value) => {
+	const toggleSpinner = (value,text) => {
 		// rendering generally takes time and so delay taking it down by 500ms
 		const time = value ? 0 : 500;
+		const textToShow = value === false ? '' : text;
 		setTimeout(() =>{
 			setShowSpinner(value);
+			setSpinnerText(textToShow);
 		},time);
 	};
 
@@ -81,10 +84,10 @@ function Map() {
 					const zoom = 16;
 					const latlng = event?.popup?._latlng;
 					if (latlng) {
-						toggleSpinner(true);
+						toggleSpinner(true,'Navigating...');
 						setTimeout(() =>{
 							map.setView([latlng.lat,latlng.lng], zoom);
-							toggleSpinner(false);
+							toggleSpinner(false,'');
 						});
 					}
 				}
@@ -104,13 +107,14 @@ function Map() {
 
 	useEffect(() => {
 		map.setMinZoom(2);
-
+		setSpinnerText('Loading Freeing Space Data...');
 		parseGoogleSheetsAPIData()
 			.then( sheetsData => {
 				housingData = housingData.concat(sheetsData.housingData);
 				landData = landData.concat(sheetsData.landData);
 				projectsData = projectsData.concat(sheetsData.projectsData);
 				polygonData = polygonData.concat(sheetsData.polygonData);
+				setSpinnerText('Loading Squat.net Data...');
 				return getSquats();
 			})
 			.then( data =>{
@@ -120,6 +124,7 @@ function Map() {
 				console.log('Could not get squats data: ',error);
 			})
 			.finally(() =>{
+				setSpinnerText('Building Map...');
 				landRef.current = createMarkerLayer(map,landData,landIcon);
 				projectsRef.current = createMarkerLayer(map,projectsData,projectsIcon);
 				polygonRef.current = createPolygonsLayer(map,polygonData);
@@ -136,7 +141,7 @@ function Map() {
 					totalSpacesCount += Object.keys(housingRef.current?._layers).length;
 				}
 				setTotalSpaces(totalSpacesCount);
-				
+
 				setShowSpinner(false);
 			});
 		// eslint-disable-next-line
@@ -160,10 +165,10 @@ function Map() {
 				toggleLandVisibility={toggleLandVisibility}
 				toggleProjectsVisibility={toggleProjectsVisibility}/>
 			{ !modalVisible || <Modal toggleModalVisibility={toggleModalVisibility} totalSpaces={totalSpaces}/> }
-			{ !showSpinner || <Spinner/> }
+			{ !showSpinner || <Spinner text={spinnerText}/> }
 			<ZoomControl position="topright"/>
 			<ZoomTo toggleSpinner={toggleSpinner}/>
-			<MapListener/>   
+			<MapListener toggleSpinner={toggleSpinner}/>   
 			<ImageOverlay url={chimera1Path} bounds={chimera1Bounds} opacity={1} zIndex={1001}/>
 			<ImageOverlay url={chimera2Path} bounds={chimera2Bounds} opacity={1} zIndex={1001}/>
 			<ImageOverlay url={monsterPath} bounds={monsterBounds} opacity={1} zIndex={1001}/>

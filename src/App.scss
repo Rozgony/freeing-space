@@ -342,6 +342,15 @@ menu {
 		animation: spin 2s linear infinite;
 	    -webkit-animation: spin 1.5s linear infinite;
 	}
+	.page-spinner-text {
+		width: 250px;
+		position: absolute;
+		top: calc(50% + 40px);
+		left: calc(50% - 125px);
+		text-align: center;
+		font-size: 1.25em;
+		font-weight: 700;
+	}
 }
 
 .backdrop.is-dark {
